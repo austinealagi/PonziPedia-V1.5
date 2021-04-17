@@ -8,7 +8,7 @@
 // | PonziPedia - Peer 2 Peer 50% ROI Donation System
 // | Copyright (c) 2018 PonziPedia. All rights reserved.
 // +------------------------------------------------------------------------+
-$demoSet =1;
+$demoSet =0;
 
 
 //Sending marching to the next page
@@ -346,7 +346,15 @@ function ProfileComplete($firstname,$lastname,$phonenumber,$bankname,$accountnum
       );
     }
     if ($receiver != 1) {
-     $receeiversNew = $receiver;
+	    
+     if (Config::get('app.activation_fees_admin_only')){
+       $receiver = DB::table('activationReceiver')->where('id', 1)->first();
+        $receeiversNew =  $receiver->userid;
+
+     }else{
+        $receeiversNew = $receiver;
+     }
+	    
     }
     else{
       $receiver = DB::table('activationReceiver')->where('id', 1)->first();
